@@ -25,4 +25,6 @@ jobs:
             context: ./src
             file: ./src/Dockerfile
             push: true
-            tags: fspelling/primeira-pipeline:v${{ github.run_number }}
+            tags: |
+                fspelling/primeira-pipeline:v${{ github.run_number }}
+                fspelling/primeira-pipeline:latest
