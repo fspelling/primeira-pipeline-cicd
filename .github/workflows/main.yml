@@ -28,3 +28,26 @@ jobs:
             tags: |
                 fspelling/primeira-pipeline:v${{ github.run_number }}
                 fspelling/primeira-pipeline:latest
+                
+  CD:
+    name: "CD - Continuos Delivery/Deploy"
+    needs: ["CI"]
+    runs-on: ubuntu-latest
+    steps:
+        - name: "Obtendo arquivos do projeto"
+          uses: actions/checkout@v4
+
+        - name: "Configurando contexto/autenticacao do k8s"
+          uses: azure/k8s-set-context@v4
+          with:
+              method: kubeconfig
+              kubeconfig: ${{ secrets.K8S_CONFIG }}
+
+        - name: "Execução dos manifestos"
+          uses: azure/k8s-deploy@v5
+          with:
+              manifests: |
+                  ./k8s/deployment.yaml
+              images: |
+                  fspelling/primeira-pipeline:v${{ github.run_number }}
+          
