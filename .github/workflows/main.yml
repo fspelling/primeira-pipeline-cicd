@@ -1,1 +1,28 @@
+name: CI-CD
 
+on:
+    push:
+        branches: ["main"]
+    workflow_dispatch:
+
+jobs:
+  CI:
+    name: "CI - Continuos Integration"
+    runs-on: ubuntu-latest
+    steps:
+        - name: "Obtendo arquivos do projeto"
+          uses: actions/checkout@v4
+
+        - name: "Autenticacao no Docker"
+          uses: docker/login-action@v3
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+        
+        - name: "Build/Push da imagem Docker"
+          uses: docker/build-push-action@v5
+          with:
+            context: ./src
+            file: ./src/Dockerfile
+            push: true
+            tags: fspelling/primeira-pipeline:v${{ github.run_number }}
