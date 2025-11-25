@@ -1,0 +1,31 @@
+name: "Como usar contexto no GitHub Actions"
+
+on:
+  workflow_dispatch:
+
+env:
+  ENV_WORKFLOW: "Valor WORKFLOW"
+
+jobs:
+  contextos-job:
+    name: "Job que ira listar os contextos do GittHub Actions"
+    runs-on: ubuntu-latest
+    env:
+        ENV_JOB: "Valor JOB CONTEXT"
+    steps:
+      - name: "Contexto github"
+        env:
+          CONTEXT_GITHUB: ${{ toJson(github) }}
+        run: echo "$CONTEXT_GITHUB"
+      - name: "Contexto env"
+        env:
+          CONTEXT_ENV: ${{ toJson(env) }}
+        run: echo "$CONTEXT_ENV"
+      - name: "Contexto secrets"
+        env:
+          CONTEXT_SECRETS: ${{ toJson(secrets) }}
+        run: echo "$CONTEXT_SECRETS"
+      - name: "Contexto job"
+        env:
+          CONTEXT_JOB: ${{ toJson(job) }}
+        run: echo "$CONTEXT_JOB"
