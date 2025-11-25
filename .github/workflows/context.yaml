@@ -40,3 +40,14 @@ jobs:
           run: echo "$CONTEXT_VARS"
         - name: "Buscando variavel especifica - (VAR_TESTE)"
           run: echo "${{ vars.VAR_TESTE }}"
+
+  contexto-secrets:
+      name: "Job que ira listar o contexto de secrets"
+      runs-on: ubuntu-latest
+      steps:
+        - name: "Contexto screts"
+          env:
+            CONTEXT_SECRETS: ${{ toJson(secrets) }}
+          run: echo "$CONTEXT_SECRETS"
+        - name: "Buscando variavel especifica - (SECRET_TESTE)"
+          run: echo "${{ secrets.SECRET_TESTE }}"
