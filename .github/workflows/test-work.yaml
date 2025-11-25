@@ -1,8 +1,8 @@
 name: pipeline-teste
-on:
-  workflow_dispatch:
 env:
   ENV_WORKFLOW: "Variavel declarado no workflow"
+on:
+  workflow_dispatch:
 jobs:
   job-test:
     name: "Iniciando execcao do Job (job-test)"
