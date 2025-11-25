@@ -1,4 +1,6 @@
 name: pipeline-teste
+env:
+  ENV_WORKFLOW: "Variavel declarado no workflow"
 on:
   workflow_dispatch:
 jobs:
@@ -7,4 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "step 1"
-        run: echo "valor fixo"
+        run: echo "$ENV_WORKFLOW"
