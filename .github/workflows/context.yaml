@@ -7,7 +7,7 @@ env:
   ENV_WORKFLOW: "Valor WORKFLOW"
 
 jobs:
-  contextos-job:
+  contextos:
     name: "Job que ira listar os contextos do GittHub Actions"
     runs-on: ubuntu-latest
     env:
@@ -29,3 +29,14 @@ jobs:
         env:
           CONTEXT_JOB: ${{ toJson(job) }}
         run: echo "$CONTEXT_JOB"
+
+  contexto-vars:
+      name: "Job que ira listar o contexto de variaveis (vars)"
+      runs-on: ubuntu-latest
+      steps:
+        - name: "Contexto vars"
+          env:
+            CONTEXT_VARS: ${{ toJson(vars) }}
+          run: echo "$CONTEXT_VARS"
+        - name: "Buscando variavel especifica - (VAR_TESTE)"
+          run: echo "${{ vars.VAR_TESTE }}"
