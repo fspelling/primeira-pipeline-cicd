@@ -17,4 +17,4 @@ jobs:
           echo "$ENV_WORKFLOW"
           echo "$ENV_STEP"
       - name: "step 2"
-        run: echo "$ENV_JOB"
+        run: echo "$ENV_STEP"
