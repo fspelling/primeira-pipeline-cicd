@@ -1,0 +1,31 @@
+name: CD
+on:
+    workflow_call:
+      inputs:
+        manifest:
+          type: string
+          required: true
+          description: "arquivo de manifesto k8s"
+        image:
+          type: string
+          required: true
+          description: "imagem docker que sera realizado o deploy pelo arquivo de manifesto"
+jobs:
+  CD:
+    name: "CD - Continuos Delivery/Deploy"
+    runs-on: ubuntu-latest
+    steps:
+        - name: "Obtendo arquivos do projeto"
+          uses: actions/checkout@v4
+
+        - name: "Configurando contexto/autenticacao do k8s"
+          uses: azure/k8s-set-context@v4
+          with:
+              method: kubeconfig
+              kubeconfig: ${{ secrets.K8S_CONFIG }}
+
+        - name: "Execução dos manifestos"
+          uses: azure/k8s-deploy@v5
+          with:
+              manifests: ${{ inputs.manifest }}
+              images: ${{ inputs.image }}
