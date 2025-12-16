@@ -12,7 +12,7 @@ on:
           description: "imagem docker que sera realizado o deploy pelo arquivo de manifesto"
 jobs:
   CD:
-    name: "CD - Continuos Delivery/Deploy"
+    name: "Deploy K8S"
     runs-on: ubuntu-latest
     steps:
         - name: "Obtendo arquivos do projeto"
