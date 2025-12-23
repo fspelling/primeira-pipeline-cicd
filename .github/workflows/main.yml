@@ -1,12 +1,8 @@
 name: CI-CD
-
 on:
-    push:
-        branches: ["main"]
     workflow_dispatch:
-
 jobs:
-  CI:
+  ci:
     name: "CI - Continuos Integration"
     runs-on: ubuntu-latest
     steps:
@@ -27,13 +23,29 @@ jobs:
             push: true
             tags: |
                 fspelling/primeira-pipeline:v${{ github.run_number }}
-                fspelling/primeira-pipeline:latest
-                
-  CD:
-    name: "CD - Continuos Delivery/Deploy"
-    needs: ["CI"]
+                fspelling/primeira-pipeline:latest    
+  cd-hml:
+    name: "CD (HML) - Continuos Delivery/Deploy"
+    needs: ["ci"]
     uses: fspelling/primeira-pipeline-cicd/.github/workflows/pipe-cd.yml@main
     with:
         manifest: ./k8s/deployment.yaml
         image: fspelling/primeira-pipeline:v${{ github.run_number }}
+        environment: HML
+    secrets: inherit
+  testes-hml:
+    name: "Testes no ambiente hml"
+    needs: ["cd-hml"]
+    runs-on: ubuntu-latest
+    steps:
+        - name: "Testes HML"
+          run: echo "testes"
+  cd-prd:
+    name: "CD (PRD) - Continuos Delivery/Deploy"
+    needs: ["testes-hml"]
+    uses: fspelling/primeira-pipeline-cicd/.github/workflows/pipe-cd.yml@main
+    with:
+        manifest: ./k8s/deployment.yaml
+        image: fspelling/primeira-pipeline:v${{ github.run_number }}
+        environment: PRD
     secrets: inherit
