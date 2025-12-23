@@ -7,9 +7,8 @@ import (
 )
 
 func index(w http.ResponseWriter, r *http.Request) {
-
 	w.Header().Set("Content-Type", "text/plain")
-	fmt.Fprintf(w, "Aplicacao exemplo - v3")
+	fmt.Fprintf(w, "Aplicacao exemplo - v4")
 }
 
 func main() {
