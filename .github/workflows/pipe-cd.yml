@@ -10,9 +10,14 @@ on:
           type: string
           required: true
           description: "imagem docker que sera realizado o deploy pelo arquivo de manifesto"
+        environment:
+          type: string
+          required: true
+          description: "environment que representa o ambiente de deploy"
 jobs:
   CD:
     name: "Deploy K8S"
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
         - name: "Obtendo arquivos do projeto"
@@ -29,3 +34,4 @@ jobs:
           with:
               manifests: ${{ inputs.manifest }}
               images: ${{ inputs.image }}
+              namespace: ${{ vars.namespace }}
